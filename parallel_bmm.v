@@ -256,14 +256,7 @@ module pipelined_comba_mult #(
     
     integer i;
 
-//    genvar i;
-//    generate
-//        for (i = 0; i < NA; i = i + 1)
-//            assign Aword[i] = A[(i*W) +: W];
 
-//        for (i = 0; i < NB; i = i + 1)
-//            assign Bword[i] = B[(i*W) +: W];
-//    endgenerate
 
     // ----------------------------
     // Pipeline registers
@@ -356,110 +349,6 @@ endmodule
 
 
 
-//module pipelined_comba_mult #(
-//    parameter AW = 1024,    // bitwidth of A
-//    parameter BW = 2048,    // bitwidth of B
-//    parameter W  = 128      // word size
-//)(
-//    input  wire             clk,
-//    input  wire             start,
-//    input  wire [AW-1:0]    A,
-//    input  wire [BW-1:0]    B,
-//    output reg              done,
-//    output reg [AW+BW-1:0]  P
-//);
-
-//    // ----------------------------
-//    // Number of words
-//    // ----------------------------
-//    localparam NA = (AW + W - 1) / W;
-//    localparam NB = (BW + W - 1) / W;
-//    localparam NW = NA + NB;
-
-//    // ----------------------------
-//    // Split A and B into words
-//    // ----------------------------
-//    reg [W-1:0] Aword [0:NA-1];
-//    reg [W-1:0] Bword [0:NB-1];
-    
-//    integer i;
-
-////    genvar i;
-////    generate
-////        for (i = 0; i < NA; i = i + 1)
-////            assign Aword[i] = A[(i*W) +: W];
-
-////        for (i = 0; i < NB; i = i + 1)
-////            assign Bword[i] = B[(i*W) +: W];
-////    endgenerate
-
-//    // ----------------------------
-//    // Pipeline registers
-//    // ----------------------------
-//    reg [15:0] k;  // column index
-//    reg busy = 0;
-
-//    reg [2*W+15:0] carry;
-//    reg [W-1:0] C [0:NW-1];   // output words
-
-//    integer j,m;
-//    reg [2*W+15:0] temp;
-    
-    
-//    // ----------------------------
-//    // MAIN FSM
-//    // ----------------------------
-//    always @(posedge clk) begin
-//        done <= 0;
-
-//        if (start && !busy) begin
-        
-//            for (i = 0; i < NA; i = i + 1)
-//                 Aword[i] <= A[(i*W) +: W];
-
-//            for (i = 0; i < NB; i = i + 1)
-//                 Bword[i] <= B[(i*W) +: W];
-                
-//            busy  <= 1;
-//            k     <= 0;
-//            carry <= 0;
-//        end
-
-//        else if (busy) begin
-//            // Compute one column per cycle
-//            temp = carry;
-
-//       for (j = 0; j < NA; j = j + 1)
-//                if ((k-j) >= 0 && (k-j) < NB)
-//                    temp = temp + Aword[j] * Bword[k-j];
-
-
-//            // Extract output word
-//            C[k] <= temp[W-1:0];
-
-//            // Next carry
-//            carry <= temp >> W;
-
-//            // Advance to next column
-//            k <= k + 1;
-
-//            // Finished all columns?
-//            if (k == NW-1) begin
-//                busy <= 0;
-
-//                // Assemble output product`
-
-//                done <= 1;
-//            end
-//        end
-//    end
-    
-//    always@(*) begin
-//        for (j = NW; j > 0; j = j - 1)
-//                    P[(j*W)-1 -: W] = C[j-1];
-//    end
-
-//endmodule
 
 
 
